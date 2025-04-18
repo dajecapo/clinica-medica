@@ -152,7 +152,6 @@
       form.fecha.value = cita.fecha;
       form.hora.value = cita.hora;
       form.comentarios.value = cita.comentarios;
-      localStorage.setItem("citas", JSON.stringify(citas));
       citas.splice(index, 1);
       localStorage.setItem("citas", JSON.stringify(citas));
       mostrarCitas();
@@ -172,22 +171,14 @@
       citas.push(nuevaCita);
       localStorage.setItem("citas", JSON.stringify(citas));
 
-      fetch("https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec", {
-        method: "POST",
-        body: data
-      })
-      .then(() => {
-        const msg = document.getElementById("confirmation-message");
-        msg.style.display = "block";
-        audioConfirmacion.play();
-        form.reset();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        setTimeout(() => { msg.style.display = "none"; }, 5000);
-      })
-      .catch(() => {
-        alert("Hubo un error al enviar la cita. Intenta de nuevo.");
-      });
+      const msg = document.getElementById("confirmation-message");
+msg.style.display = "block";
+audioConfirmacion.play();
+form.reset();
+window.scrollTo({ top: 0, behavior: 'smooth' });
+setTimeout(() => { msg.style.display = "none"; }, 5000);
     });
   </script>
 </body>
 </html>
+
