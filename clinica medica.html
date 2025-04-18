@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clínica Médica</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f0f4f8; color: #333; }
+    header, section { padding: 2rem; background: #fff; margin: 1rem auto; border-radius: 1rem; max-width: 900px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    h1, h2 { color: #0c4a6e; }
+    .accordion button { width: 100%; padding: 1rem; border: none; text-align: left; background: #e0f2fe; font-size: 1rem; cursor: pointer; border-radius: 0.5rem; margin-bottom: 0.5rem; }
+    .accordion-content { display: none; padding: 0.5rem 1rem; background: #f0f9ff; border-radius: 0.5rem; margin-bottom: 1rem; }
+    form { display: grid; gap: 1rem; }
+    input, select, textarea, button { padding: 0.75rem; font-size: 1rem; border-radius: 0.5rem; border: 1px solid #ccc; width: 100%; }
+    button[type="submit"] { background-color: #0c4a6e; color: white; cursor: pointer; }
+    .confirmation { background-color: #d1fae5; color: #065f46; padding: 1rem; margin-top: 1rem; border-radius: 0.5rem; display: none; }
+    @media (max-width: 600px) {
+      header, section { margin: 0.5rem; padding: 1rem; }
+    }
+    .accordion button i {
+      margin-right: 0.5rem;
+      transition: transform 0.3s, color 0.3s;
+    }
+    .accordion button:hover i {
+      transform: scale(1.2);
+      color: #0c4a6e;
+    }
+  </style>
+</head>
+<body>
+  <header style="display: flex; align-items: center; gap: 1rem;">
+    <img src="https://cdn-icons-png.flaticon.com/512/387/387561.png" alt="Médico" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
+    <div>
+      <h1>Clínica Médica Integral</h1>
+      <p>Tu salud es nuestra prioridad.</p>
+    </div>
+  </header>
+
+  <section>
+    <h2>¿Quiénes somos?</h2>
+    <p>Somos una clínica comprometida con la salud de nuestros pacientes. Nuestro enfoque es humano, profesional y orientado al bienestar integral.</p>
+    <h2>Misión</h2>
+    <p>Brindar atención médica integral, accesible y de calidad.</p>
+    <h2>Visión</h2>
+    <p>Ser una clínica referente por excelencia, trato humano y compromiso con la salud preventiva.</p>
+    <h2>Valores</h2>
+    <ul>
+      <li>Ética profesional</li>
+      <li>Empatía</li>
+      <li>Diversidad</li>
+      <li>Honestidad</li>
+      <li>Responsabilidad</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Especialidades Médicas</h2>
+    <div class="accordion">
+      <button onclick="toggleAccordion(this)"><i class='fas fa-stethoscope'></i> Medicina General</button>
+      <div class="accordion-content">Atención primaria, diagnóstico general y seguimiento clínico.</div>
+      <button onclick="toggleAccordion(this)"><i class='fas fa-venus'></i> Ginecología</button>
+      <div class="accordion-content">Salud femenina, control prenatal y planificación familiar.</div>
+      <button onclick="toggleAccordion(this)"><i class='fas fa-mars'></i> Urología</button>
+      <div class="accordion-content">Tracto urinario y salud reproductiva masculina.</div>
+      <button onclick="toggleAccordion(this)"><i class='fas fa-baby'></i> Pediatría</button>
+      <div class="accordion-content">Atención médica integral para niños y adolescentes.</div>
+      <button onclick="toggleAccordion(this)"><i class='fas fa-heartbeat'></i> Cardiología</button>
+      <div class="accordion-content">Diagnóstico y tratamiento de enfermedades del corazón.</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Agendar Cita Médica</h2>
+    <form id="appointment-form">
+      <input type="text" name="nombre" placeholder="Nombre completo" required />
+      <input type="tel" name="telefono" placeholder="Teléfono" required />
+      <input type="email" name="email" placeholder="Correo electrónico" required />
+      <select name="sexo" required>
+        <option value="">Sexo</option>
+        <option>Femenino</option>
+        <option>Masculino</option>
+        <option>Otro</option>
+      </select>
+      <select name="especialidad" required>
+        <option value="">Especialidad</option>
+        <option>Medicina General</option>
+        <option>Ginecología</option>
+        <option>Urología</option>
+        <option>Pediatría</option>
+        <option>Cardiología</option>
+      </select>
+      <input type="date" name="fecha" required />
+      <input type="time" name="hora" required />
+      <textarea name="comentarios" placeholder="Comentarios"></textarea>
+      <button type="submit">Agendar Cita</button>
+      <div class="confirmation" id="confirmation-message">
+        ✅ Gracias, tu cita ha sido agendada.<br>
+        ⏳ Redirigiendo al inicio...<br>
+        🎉 Te contactaremos pronto.
+      </div>
+    </form>
+  </section>
+
+  <button onclick="mostrarCitas()" style="position: fixed; top: 1rem; left: 1rem; padding: 0.5rem 1rem; border: none; border-radius: 0.5rem; background-color: #0c4a6e; color: white; cursor: pointer; z-index: 1000;">Ver Citas</button>
+  <section id="citas-guardadas" style="display: none; padding: 2rem; background: #fff; margin: 1rem auto; border-radius: 1rem; max-width: 900px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+    <h2>Citas Agendadas</h2>
+    <div id="lista-citas"></div>
+  </section>
+
+  <!-- Botón de WhatsApp con etiqueta URGENCIAS -->
+  <div style="position: fixed; bottom: 90px; right: 20px; color: red; font-weight: bold; font-size: 12px; z-index: 1000;">URGENCIAS</div>
+  <a href="https://wa.me/529991832064" target="_blank" style="position: fixed; bottom: 20px; right: 20px; background-color: #25d366; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(0,0,0,0.2); text-decoration: none; font-size: 22px; z-index: 1000;">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+
+  <script>
+    const audioConfirmacion = new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_5b16d4a2e1.mp3?filename=correct-2-46134.mp3");
+    let citas = JSON.parse(localStorage.getItem("citas")) || [];
+
+    function toggleAccordion(button) {
+      const content = button.nextElementSibling;
+      content.style.display = content.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function mostrarCitas() {
+      const contenedor = document.getElementById('citas-guardadas');
+      const lista = document.getElementById('lista-citas');
+      lista.innerHTML = '';
+      citas.forEach((cita, i) => {
+        const item = document.createElement('div');
+        item.innerHTML = `
+          <strong>${cita.nombre}</strong> - ${cita.especialidad} <br>
+          📅 ${cita.fecha} ⏰ ${cita.hora} - 📞 ${cita.telefono}<br>
+          <button onclick="editarCita(${i})">Editar</button>
+          <button onclick="borrarCita(${i})">Borrar</button>
+          <hr>
+        `;
+        lista.appendChild(item);
+      });
+      contenedor.style.display = 'block';
+    }
+
+    function editarCita(index) {
+      const cita = citas[index];
+      const form = document.getElementById("appointment-form");
+      form.nombre.value = cita.nombre;
+      form.telefono.value = cita.telefono;
+      form.email.value = cita.email;
+      form.sexo.value = cita.sexo;
+      form.especialidad.value = cita.especialidad;
+      form.fecha.value = cita.fecha;
+      form.hora.value = cita.hora;
+      form.comentarios.value = cita.comentarios;
+      localStorage.setItem("citas", JSON.stringify(citas));
+      citas.splice(index, 1);
+      localStorage.setItem("citas", JSON.stringify(citas));
+      mostrarCitas();
+    }
+
+    function borrarCita(index) {
+      citas.splice(index, 1);
+      localStorage.setItem("citas", JSON.stringify(citas));
+      mostrarCitas();
+    }
+
+    document.getElementById("appointment-form").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const form = e.target;
+      const data = new FormData(form);
+      const nuevaCita = Object.fromEntries(data.entries());
+      citas.push(nuevaCita);
+      localStorage.setItem("citas", JSON.stringify(citas));
+
+      fetch("https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec", {
+        method: "POST",
+        body: data
+      })
+      .then(() => {
+        const msg = document.getElementById("confirmation-message");
+        msg.style.display = "block";
+        audioConfirmacion.play();
+        form.reset();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        setTimeout(() => { msg.style.display = "none"; }, 5000);
+      })
+      .catch(() => {
+        alert("Hubo un error al enviar la cita. Intenta de nuevo.");
+      });
+    });
+  </script>
+</body>
+</html>
